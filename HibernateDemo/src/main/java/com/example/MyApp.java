@@ -124,6 +124,54 @@ class MyApp {
 		// Projections - select name, age from student;
 		//              - max(), min(), sum(), avg()
 		
+		// rowCount
+//		Criteria c1 = session.createCriteria(Student.class);
+//		Projection proj = Projections.rowCount();
+//		Criteria cr= c1.setProjection(proj);
+//		System.out.println(cr.uniqueResult()); //8 - select count(*) from student;
+		
+
+		// Max Marks
+//		Criteria c1 = session.createCriteria(Student.class);
+//		Projection proj = Projections.max("marks");
+//		Criteria cr = c1.setProjection(proj);
+//		System.out.println(cr.uniqueResult()); // 87
+	
+		
+		// min, avg
+		// names
+//		Criteria c1 = session.createCriteria(Student.class);
+//		Projection proj = Projections.property("name"); // select name from student;
+//		Criteria cr = c1.setProjection(proj);
+//		List<String> nameList= c1.list();
+//		for(String str: nameList) {
+//			System.out.println(str);
+//		}
+		
+		// names, marks - ProjectionList
+		// Create Criteria Obj
+		Criteria c1 = session.createCriteria(Student.class);
+		
+		// Create Projection for each column
+		Projection proj1 = Projections.property("name");
+		Projection proj2 = Projections.property("marks");
+		
+		// Create ProjectList and add Projections
+		ProjectionList projList = Projections.projectionList();
+		projList.add(proj1);
+		projList.add(proj2);
+		
+		// Add ProjectionList to Criteria
+		Criteria c2 = c1.setProjection(projList);
+		List pList = c2.list();
+		
+		// Iterate ProjectionList
+		Iterator itr = pList.iterator();
+		while(itr.hasNext()) {
+			Object[] obj= (Object[])itr.next();
+			System.out.println("Name: "+ obj[0] + "\t"+ "Marks: "+ obj[1]);
+		}
+		
 		
 		session.close();
 		factory.close();
